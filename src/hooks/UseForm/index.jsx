@@ -9,5 +9,21 @@ export const UseForm = (initialState) => {
   const cleanFields = () => {
     setFormValues({});
   };
-  return { formValues, onChange, cleanFields };
+
+  const [formValuesB, setFormValuesB] = useState({ initialState });
+  const onChangeB = (event) => {
+    const { name, value } = event.target;
+    setFormValuesB({ ...formValuesB, [name]: value });
+  };
+  const cleanFieldsB = () => {
+    setFormValuesB({});
+  };
+  return {
+    formValues,
+    onChange,
+    cleanFields,
+    formValuesB,
+    onChangeB,
+    cleanFieldsB,
+  };
 };
