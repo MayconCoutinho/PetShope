@@ -1,41 +1,35 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  MenuItem,
-  Select,
-  Stack,
-} from "@mui/material";
+import { Button, FormControl, MenuItem, Select, Stack } from "@mui/material";
 import { UseForm } from "../../hooks/UseForm";
 import { InputForms } from "./styled";
+import { PatchClient } from "../../services/Api/client";
 import { useContext } from "react";
-import { ApiContext } from "../../context/Api";
+import { DataContext } from "../../context/Data";
+import { PatchPet } from "../../services/Api/pet";
 
-export const RegisterClientAndPet = () => {
-  const { formValues, onChange, cleanFields } = UseForm({
-    nome: "",
-    telefone: "",
-    petName: "",
-    idade: "",
-    raca: "",
-    tipo: "",
-  });
-  const { FuctionRegisterClient } = useContext(ApiContext);
+export const EditClientAndPet = ({ pets }) => {
+  const {
+    formValues,
+    onChange,
+    cleanFields,
+    formValuesB,
+    onChangeB,
+    cleanFieldsB,
+  } = UseForm();
 
-  const SubmitForm = async (event) => {
-    event.preventDefault();
-    FuctionRegisterClient(formValues);
+  const { currentClient } = useContext(DataContext);
+
+  const SubmitForm = (event) => {
+    PatchClient(currentClient.id, formValuesB);
+    PatchPet(currentClient.id, pets[0].id, formValues);
+    cleanFieldsB();
     cleanFields();
-    console.log(formValues);
   };
 
   return (
     <form onSubmit={SubmitForm}>
       <Stack
-        width={"100%"}
-        height={80}
-        sx={{ backgroundColor: "#fff", borderRadius: 1 }}
-        direction="row"
+        width={"300px"}
+        direction="column"
         justifyContent="center"
         alignItems="center"
         padding={2}
@@ -43,61 +37,55 @@ export const RegisterClientAndPet = () => {
       >
         <InputForms
           type={"text"}
-          placeholder="Nome do Cliente"
+          placeholder={currentClient.nome || undefined}
           name="nome"
-          onChange={onChange}
-          required
+          onChange={onChangeB}
           pattern="[a-zA-ZÀ-ÿ -]{3,30}"
           title="mínimo de 3 caracteres e menor que 30"
-          value={formValues.nome}
+          value={formValuesB.nome || undefined}
         />
         <InputForms
           type={"text"}
-          placeholder="Telefone"
+          placeholder={currentClient.telefone || undefined}
           name="telefone"
-          onChange={onChange}
-          required
+          onChange={onChangeB}
           pattern="[0-9]{11}"
           title="Deve conter 11 dígitos numéricos parecido ex: 28999287132"
-          value={formValues.telefone}
+          value={formValuesB.telefone || undefined}
         />
         <InputForms
           type={"text"}
-          placeholder="Nome do Pet"
-          name="petName"
+          placeholder={pets[0].nome || undefined}
+          name="nome"
           onChange={onChange}
-          required
           pattern="[a-zA-ZÀ-ÿ -]{3,30}"
           title="mínimo de 3 caracteres e menor que 30"
-          value={formValues.petName}
+          value={formValues.nome || undefined}
         />
         <InputForms
           type={"text"}
-          placeholder="Raça"
+          placeholder={pets[0].raca || undefined}
           name="raca"
           onChange={onChange}
-          required
           pattern="[a-zA-ZÀ-ÿ -]{3,30}"
           title="mínimo de 3 caracteres e menor que 30"
           value={formValues.raca}
         />
         <InputForms
           type={"number"}
-          placeholder="Idade do Pet"
+          placeholder={pets[0].idade || undefined}
           name="idade"
           onChange={onChange}
-          required
           min="0"
           max="30"
           title="Seu pet tem mais de 30 anos?"
-          value={formValues.idade}
+          value={formValues.idade || undefined}
         />
 
         <FormControl sx={{ m: 1, minWidth: 120 }}>
           <Select
-            required
             name="tipo"
-            value={formValues.tipo}
+            value={formValues.tipo || undefined}
             onChange={onChange}
             displayEmpty
             inputProps={{ "aria-label": "Without label" }}

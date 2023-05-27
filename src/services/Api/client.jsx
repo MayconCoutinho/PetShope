@@ -25,11 +25,39 @@ export const PostClientAndPet = async (clientAndPet) => {
     },
   };
 
-  console.log("estou no post", body);
-
   try {
     await axios.post(`${BASE_URL}admin/client/register`, body);
-    alert("formulario enviado");
+    alert("Cliente cadastrado");
+  } catch (error) {
+    alert(error.response.data.message);
+  }
+};
+
+export const DeleteClient = async (idClient) => {
+  try {
+    await axios.delete(`${BASE_URL}admin/client`, {
+      data: {
+        idClient: idClient,
+      },
+    });
+
+    alert("Usuario deletado");
+  } catch (error) {
+    alert(error.response.data.message);
+  }
+};
+
+export const PatchClient = async (idClient, object) => {
+  const { nome, telefone } = object;
+  try {
+    const response = await axios.patch(`${BASE_URL}admin/client/${idClient}`, {
+      data: {
+        nome,
+        telefone,
+      },
+    });
+
+    return response.data;
   } catch (error) {
     alert(error.response.data.message);
   }
