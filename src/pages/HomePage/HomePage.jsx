@@ -4,9 +4,16 @@ import { Footer } from "../../components/Footer";
 import { HeaderBar } from "../../components/HeaderBar";
 import { AuthContext } from "../../context/Auth";
 import { TableUser } from "../../components/TableUser";
+import { ApiContext } from "../../context/Api";
+import { Typography } from "@mui/material";
+import { TablePet } from "../../components/TablePet";
+import { DataContext } from "../../context/Data";
+import { RegisterClientAndPet } from "../../components/RegisterClientAndPet";
 
 export const HomePage = () => {
   const { headerBarUserInfo, signout } = useContext(AuthContext);
+  const { clients } = useContext(ApiContext);
+  const { currentPet } = useContext(DataContext);
 
   return (
     <>
@@ -20,10 +27,37 @@ export const HomePage = () => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        padding={2}
-        marginTop={10}
+        marginTop={20}
       >
-        <TableUser />
+        <Typography
+          variant="caption"
+          fontSize={30}
+          color={"#003b1f"}
+          fontWeight={600}
+        >
+          Clientes Registrados
+        </Typography>
+      </Stack>
+
+      <Stack
+        direction="column"
+        paddingTop={5}
+        paddingLeft={10}
+        paddingRight={10}
+      >
+        <RegisterClientAndPet />
+      </Stack>
+
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        padding={2}
+        marginTop={2}
+        marginBottom={40}
+      >
+        <TableUser rows={clients} />
+        <TablePet pets={currentPet} />
       </Stack>
       <Footer />
     </>
