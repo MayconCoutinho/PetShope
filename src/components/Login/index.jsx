@@ -2,7 +2,6 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Box,
-  Button,
   FormControl,
   IconButton,
   Input,
@@ -13,19 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import {
-  FacebookAuthProvider,
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
-} from "firebase/auth";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import facebookImg from "../../assets/img/login/facebook-icon.png";
-import googleImg from "../../assets/img/login/google-icon.png";
 import { AuthContext } from "../../context/Auth";
 import { UseForm } from "../../hooks/UseForm";
-import { FirebaseConfigChave } from "../../services/firebase";
 
 export const Login = () => {
   const navigate = useNavigate();
